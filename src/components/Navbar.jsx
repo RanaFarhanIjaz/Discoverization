@@ -40,6 +40,7 @@ export default function Navbar() {
 
         <nav id="site-nav" className={open ? 'site-nav open' : 'site-nav'} aria-label="Main">
           <NavLink to="/" end className={linkClass} onClick={close}>Home</NavLink>
+          <NavLink to="/events" className={linkClass} onClick={close}>Events</NavLink>
 
           <div className="nav-account">
             {user ? (
