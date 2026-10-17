@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer, { AUTH_STORAGE_KEY } from '../features/auth/authSlice';
+import uiReducer from '../features/ui/uiSlice';
 import { saveJSON } from '../utils/storage';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    ui: uiReducer,
   },
 });
 
