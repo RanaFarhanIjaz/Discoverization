@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectRegistrationFor } from '../features/registrations/registrationsSlice';
 import { dateParts, formatLocation, formatPrice, formatTime } from '../utils/events';
 import StatusBadge from './StatusBadge';
 
 export default function EventCard({ event }) {
+  const registration = useSelector(selectRegistrationFor(event.id));
   const { month, day, weekday } = dateParts(event);
   const location = formatLocation(event.venue);
   const price = formatPrice(event);
@@ -18,6 +21,7 @@ export default function EventCard({ event }) {
           </div>
         )}
         <div className="ticket-badges">
+          {registration && <span className="badge badge-ok">Registered</span>}
           <StatusBadge status={event.status} />
         </div>
       </div>
