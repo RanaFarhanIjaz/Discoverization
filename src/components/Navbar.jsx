@@ -2,14 +2,18 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectCurrentUser } from '../features/auth/authSlice';
+import { selectMyRegistrations } from '../features/registrations/registrationsSlice';
 import { addToast } from '../features/ui/uiSlice';
+import { isCompleted } from '../utils/events';
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(selectCurrentUser);
+  const registrations = useSelector(selectMyRegistrations);
   const [open, setOpen] = useState(false);
 
+  const upcomingCount = registrations.filter((r) => !isCompleted(r.event)).length;
   const close = () => setOpen(false);
   const linkClass = ({ isActive }) => (isActive ? 'nav-link active' : 'nav-link');
 
@@ -41,6 +45,12 @@ export default function Navbar() {
         <nav id="site-nav" className={open ? 'site-nav open' : 'site-nav'} aria-label="Main">
           <NavLink to="/" end className={linkClass} onClick={close}>Home</NavLink>
           <NavLink to="/events" className={linkClass} onClick={close}>Events</NavLink>
+          {user && (
+            <NavLink to="/my-events" className={linkClass} onClick={close}>
+              My events
+              {upcomingCount > 0 && <span className="count-pill">{upcomingCount}</span>}
+            </NavLink>
+          )}
 
           <div className="nav-account">
             {user ? (
